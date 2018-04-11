@@ -1,0 +1,12 @@
+[!] Somador 13b = PC+1
+[!] Reg 13b = PC
+[!] Reg 16b = IR
+[x] Reg 8b = ACC
+[!] Mux 13b_2x1 = PC_SRC
+[x] Mux 8b_2x1 = ACC_SRC
+[ ] Memória de dados (In_addr: 13b; In_data: 8b (src: ACC_SRC); Out: 8b)
+[ ] Memória de instrução (In_addr: 13b; Out: 16b)
+
+ULA:
+	[x] Somador 8b
+	[ ] Subtrador
