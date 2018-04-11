@@ -48,3 +48,4 @@ set_global_assignment -name VHDL_FILE mux8b_2x1.vhd
 set_global_assignment -name VHDL_FILE fulladder.vhd
 set_global_assignment -name VHDL_FILE adder8b.vhd
 set_global_assignment -name VHDL_FILE fsm_processador.vhd
+set_global_assignment -name VHDL_FILE processador.vhd
