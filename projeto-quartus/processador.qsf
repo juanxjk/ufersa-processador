@@ -43,9 +43,13 @@ set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13.0 SP1"
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "01:09:17  APRIL 05, 2018"
 set_global_assignment -name LAST_QUARTUS_VERSION "13.0 SP1"
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name VHDL_FILE datapath.vhd
 set_global_assignment -name VHDL_FILE reg8cp.vhd
 set_global_assignment -name VHDL_FILE mux8b_2x1.vhd
 set_global_assignment -name VHDL_FILE fulladder.vhd
 set_global_assignment -name VHDL_FILE adder8b.vhd
 set_global_assignment -name VHDL_FILE fsm_processador.vhd
-set_global_assignment -name VHDL_FILE processador.vhd
+set_global_assignment -name VHDL_FILE mux13b_2x1.vhd
+set_global_assignment -name VHDL_FILE reg13cp.vhd
+set_global_assignment -name VHDL_FILE reg16cp.vhd
+set_global_assignment -name VHDL_FILE adder13b.vhd
