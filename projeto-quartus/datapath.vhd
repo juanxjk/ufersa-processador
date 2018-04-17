@@ -2,8 +2,10 @@ LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;
 
 ENTITY datapath IS
-	PORT(
-		clk, rst			: IN STD_LOGIC;
+	PORT (
+		Rin : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+		Rout : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+		clk, rst			: IN STD_LOGIC
 	);
 END ENTITY;
 
@@ -73,9 +75,7 @@ COMPONENT adder13b
 	);
 END COMPONENT;
 
-
-SIGNAL -- !!!!!!!!!!!!!!!!!!!!!!!!!
-
+-- SIGNAL -- !!!!!!!!!!!!!!!!!!!!!!!!!
 BEGIN 
-	port map() -- !!!!!!!!!!!!!!!!!!!!!!!!!
+	--port map() -- !!!!!!!!!!!!!!!!!!!!!!!!!
 END comportamento;

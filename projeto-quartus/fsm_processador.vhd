@@ -38,32 +38,32 @@ BEGIN
 	END PROCESS;
 	
 	--Lógica Combinacional
-	logicacombinacional: PROCESS([...]) -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	logicacombinacional: PROCESS(estadoatual) -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	BEGIN
 		--Seleção em relação ao meu estado atual
 		CASE estadoatual IS
 			--Estado: Inicial
 			WHEN S0 =>
-				estadoproximo <= SW;
-			WHEN SB <=
+				--estadoproximo <= SW;
+			WHEN SB =>
 				
-			WHEN SD <=
+			WHEN SD =>
 				
-			WHEN S_SOMA <=
+			WHEN S_SOMA =>
 				
-			WHEN S_SUB <=
+			WHEN S_SUB =>
 				
-			WHEN S_AND <=
+			WHEN S_AND =>
 				
-			WHEN S_XOR <=
+			WHEN S_XOR =>
 				
-			WHEN S_LDA <=
+			WHEN S_LDA =>
 				
-			WHEN S_STA <=
+			WHEN S_STA =>
 				
-			WHEN S_JMP <=
+			WHEN S_JMP =>
 				
-			WHEN S_JZ <=
+			WHEN S_JZ =>
 				
 			WHEN OTHERS =>
 				estadoproximo <= S0;

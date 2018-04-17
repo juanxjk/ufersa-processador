@@ -17,7 +17,7 @@ BEGIN
 			IF(ld='1') THEN
 				q <= d;
 			ELSIF(clr='1') THEN
-				q <= x"0";
+				q <= "0000000000000000";
 			END IF;
 		END IF;
 	END PROCESS;
