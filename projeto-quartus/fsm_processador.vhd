@@ -1,17 +1,15 @@
 LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;
 
-ENTITY fsm_placar IS
+ENTITY fsm_processador IS
 	PORT(
 		clk, rst			: IN STD_LOGIC;
-		bt1_tA, bt2_tA, bt3_tA	: IN STD_LOGIC;
-		bt1_tB, bt2_tB, bt3_tB	: IN STD_LOGIC;
-		btn_quarto		: IN STD_LOGIC;
+		opcode: IN STD_LOGIC_VECTOR(2 DOWNTO 0);
 		ld_A, cl_A, ld_B, cl_B, ld_Q, cl_Q, m1, m0, T : OUT STD_LOGIC
 	);
 END ENTITY;
 
-ARCHITECTURE comportamento OF fsm_placar IS
+ARCHITECTURE comportamento OF fsm_processador IS
 --Signals
 TYPE estado IS (
 S0, -- Estado Inicial
@@ -38,7 +36,7 @@ BEGIN
 	END PROCESS;
 	
 	--Lógica Combinacional
-	logicacombinacional: PROCESS(estadoatual) -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	logicacombinacional: PROCESS(estadoatual, opcode) -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	BEGIN
 		--Seleção em relação ao meu estado atual
 		CASE estadoatual IS
