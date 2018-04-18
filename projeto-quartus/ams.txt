@@ -1,0 +1,28 @@
+ADDRESS		INST		COMENTARIO
+--------------------------------------------------------------------
+000		IN		;;W = A
+001		ST 0		;;MD[0] = W = A
+002		IN		;;W = B
+003		ADD 0		;;W = B + MD[0] = B + A
+004		ST 0		;;MD[0] = W = B + A
+005		IN		;;W = C
+006		ST 1		;;MD[1] = C
+007		IN		;;W = D
+008		ADD 1		;;W = D + MD[1] = D + C
+009		ST 1		;;MD[1] = D + C
+00A		LD 0		;;W = MD[0] = B + A
+00B		SUB 1		;;W = W - MD[1] = (B + A) - (D + C)
+00C		ADDI 0x1E	;;W = W + 30 = (B + A) - (D + C) + 30
+00D		SUBI 0x05	;;W = W - 5 = (B + A) - (D + C) + 25
+00E		JZ 400		;;Desvio para 10 se W=0 
+00F		OUT		;;OUT = (D + C) - (B + A) + 25
+010		OUT
+011		OUT
+-----***
+400		LDI 0x0A	;;W = W + 10 = 10
+401		JMP 800
+-----***
+800		ST 2		;;MD[2] = 10
+801		NOT 2		;;W = MD[2]' = d10'
+802		ADDI 0x01	;;W = W' + 1
+803		OUT		;;OUT = -10		
