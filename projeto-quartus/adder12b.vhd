@@ -7,18 +7,18 @@ LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;
 
 
-ENTITY adder13b IS
+ENTITY adder12b IS
 	PORT(
-		A, B	:	IN	STD_LOGIC_VECTOR(12 DOWNTO 0);
+		A, B	:	IN	STD_LOGIC_VECTOR(11 DOWNTO 0);
 		c0		:	IN STD_LOGIC;
-		S		:	OUT	STD_LOGIC_VECTOR(12 DOWNTO 0);
-		c13		:	OUT STD_LOGIC
+		S		:	OUT	STD_LOGIC_VECTOR(11 DOWNTO 0);
+		c12		:	OUT STD_LOGIC
 	);
 END ENTITY;
 
 
-ARCHITECTURE hierarquia OF adder13b IS
-SIGNAL c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12 : STD_LOGIC;
+ARCHITECTURE hierarquia OF adder12b IS
+SIGNAL c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11 : STD_LOGIC;
 COMPONENT fulladder IS
 	PORT(
 		a, b, c	:	IN		STD_LOGIC;
@@ -39,5 +39,4 @@ BEGIN
 	U9: fulladder PORT MAP (A(9), B(9), c9, S(9), c10);
 	U10: fulladder PORT MAP (A(10), B(10), c10, S(10), c11);
 	U11: fulladder PORT MAP (A(11), B(11), c11, S(11), c12);
-	U12: fulladder PORT MAP (A(12), B(12), c12, S(12), c13);
 END hierarquia;
