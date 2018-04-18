@@ -1,0 +1,46 @@
+LIBRARY IEEE;
+
+USE IEEE.STD_LOGIC_1164.ALL;
+
+
+ENTITY ula IS
+	PORT(
+		A : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+		B : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+		alu_op : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
+		Y : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+	);
+END ENTITY;
+
+ARCHITECTURE comportamento OF ula IS
+
+-- Somador 8 Bit
+COMPONENT adder8b
+	PORT(
+		A, B	:	IN	STD_LOGIC_VECTOR(7 DOWNTO 0);
+		c0		:	IN STD_LOGIC;
+		S		:	OUT	STD_LOGIC_VECTOR(7 DOWNTO 0);
+		c8		:	OUT STD_LOGIC
+	);
+END COMPONENT;
+SIGNAL Z : STD_LOGIC;
+SIGNAL RES_SOMA : STD_LOGIC_VECTOR(7 DOWNTO 0);
+BEGIN
+SOMADOR: adder8b port map (A, B, Z, RES_SOMA, Z);
+	--SOMA: PROCESS (alu_op)
+	Y <= RES_SOMA WHEN alu_op = "00";
+--	
+--	BEGIN
+--		CASE alu_op IS
+--			WHEN "00" => -- SOMA
+--				Y <= SOMADOR;
+--			WHEN "01" => -- SUBTRACAO
+--			
+--			WHEN "10" => -- AND
+--			
+--			WHEN "11" => -- XOR
+--			
+--			WHEN OTHERS =>
+--		END CASE;
+--	END PROCESS;
+END comportamento;
