@@ -1,11 +1,12 @@
-[x] Somador 13b = PC+1
-[x] Reg 13b = PC
+[x] Somador 12b = PC+1
+[x] Reg 12b = PC
 [x] Reg 16b = IR
 [x] Reg 8b = ACC
-[x] Mux 13b_2x1 = PC_SRC
+[x] Mux 12b_2x1 = PC_SRC
+[ ] Mux 8b_4x1
 [x] Mux 8b_2x1 = ACC_SRC
-[ ] Memória de dados (In_addr: 13b; In_data: 8b (src: ACC_SRC); Out: 8b)
-[ ] Memória de instrução (In_addr: 13b; Out: 16b)
+[ ] Memória de dados (In_addr: 12b; In_data: 8b (src: ACC); Out_data: 8b)
+[ ] Memória de instrução (In_addr: 12b; Out: 16b)
 
 ULA:
 	[x] Somador 8b
