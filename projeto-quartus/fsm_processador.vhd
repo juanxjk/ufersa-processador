@@ -3,19 +3,20 @@ USE IEEE.STD_LOGIC_1164.ALL;
 
 ENTITY fsm_processador IS
 	PORT(
-		clk, rst			: IN STD_LOGIC;
-		opcode			: IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-		pc_ld, pc_clr	: IN STD_LOGIC;	-- Registrador PC
-		pc_src			: IN STD_LOGIC;	-- 
-		ri_ld, ri_clr	: IN STD_LOGIC;
-		acc_ld, acc_clr	:	IN STD_LOGIC;
-		acc_src				:	IN	STD_LOGIC;
-		in_ld, in_clr		: IN STD_LOGIC;
-		in_src				: IN STD_LOGIC;
-		out_ld, out_clr	: IN STD_LOGIC;
-		mem_inst_rd			: IN STD_LOGIC;
-		mem_rd, mem_wr		: IN STD_LOGIC;
-		mem_src				: IN STD_LOGIC
+		clk, rst				: IN STD_LOGIC;
+		opcode				: IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+		pc_ld, pc_clr		: OUT STD_LOGIC;	-- Registrador PC
+		pc_src				: OUT STD_LOGIC;	-- 
+		ri_ld, ri_clr		: OUT STD_LOGIC;
+		acc_ld, acc_clr	: OUT STD_LOGIC;
+		acc_src				: OUT	STD_LOGIC;
+		in_ld, in_clr		: OUT STD_LOGIC;
+		in_src				: OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
+		out_ld, out_clr	: OUT STD_LOGIC;
+		mem_inst_rd			: OUT STD_LOGIC;
+		mem_rd, mem_wr		: OUT STD_LOGIC;
+		mem_src				: OUT STD_LOGIC;
+		alu_opcode			: OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
 	);
 END ENTITY;
 
@@ -39,8 +40,8 @@ S_LDA, -- LOAD MEMÓRIA
 S_LDI, -- LOAD MEMÓRIA IMEDIATO
 S_STA, -- STORE MEMÓRIA
 S_JMP, -- DESVIO
-S_JZ, 	 -- DESVIO CONDICIONAL
-S_IN, 	 -- IN
+S_JZ,  -- DESVIO CONDICIONAL
+S_IN,  -- IN
 S_OUT  -- OUT
 );
 SIGNAL estadoatual, estadoproximo : estado;
@@ -59,7 +60,8 @@ BEGIN
 	BEGIN
 		--Seleção em relação ao meu estado atual
 		CASE estadoatual IS
-			--Estado: Inicial
+			
+			-- Estado: Inicial
 			WHEN S0 =>
 				pc_ld 		<= '0';
 				pc_clr		<= '0';
@@ -71,20 +73,25 @@ BEGIN
 				acc_src		<= '0';
 				in_ld			<= '0';
 				in_clr		<= '0';
-				in_src 		<= '0';				
+				in_src 		<= "00";				
 				out_ld 		<= '0';
 				out_clr 		<= '0';
 				mem_inst_rd <= '0';	
 				mem_rd 		<= '0';
 				mem_wr 		<= '0';
 				mem_src 		<= '0';	
+				alu_opcode <= "000";
+				-- Transição
 				estadoproximo <= SB;
+			
 			-- Estado Busca
 			WHEN SB =>
 				estadoproximo <= SW;
+			
 			-- Estado de espera
 			WHEN SW =>
 				estadoproximo <= SD;
+			
 			-- Estado de decodificação
 			WHEN SD =>
 				CASE opcode IS
@@ -121,38 +128,72 @@ BEGIN
 					WHEN "1111" => -- OUT
 						estadoproximo <= S_OUT;
 				END CASE;
+			
+			-- Estado: SOMA
 			WHEN S_ADD =>
 				estadoproximo <= SB;
+			
+			-- Estado: SUBTRAÇÃO
 			WHEN S_SUB =>
 				estadoproximo <= SB;
+			
+			-- Estado: AND LÓGICO
 			WHEN S_AND =>
 				estadoproximo <= SB;
+			
+			-- Estado: XOR LÓGICO
 			WHEN S_XOR =>
 				estadoproximo <= SB;
+			
+			-- Estado: NOT LÓGICO
 			WHEN S_NOT =>
 				estadoproximo <= SB;
+			
+			-- Estado: ADIÇÃO IMEDIATA
 			WHEN S_ADDI =>
 				estadoproximo <= SB;
+			
+			-- Estado: SUBTRAÇÃO IMEDIATA
 			WHEN S_SUBI =>
 				estadoproximo <= SB;
+			
+			-- Estado: AND LÓGICO IMEDIATO
 			WHEN S_ANDI =>
 				estadoproximo <= SB;
+			
+			-- Estado: XOR LÓGICO IMEDIATO
 			WHEN S_XORI =>
 				estadoproximo <= SB;
+			
+			-- Estado: LOAD MEMÓRIA
 			WHEN S_LDA =>
 				estadoproximo <= SB;
+			
+			-- Estado: LOAD MEMÓRIA IMEDIATA
 			WHEN S_LDI =>
 				estadoproximo <= SB;
+			
+			-- Estado: STORE MEMÓRIA
 			WHEN S_STA =>
 				estadoproximo <= SB;
+			
+			-- Estado: DESVIO
 			WHEN S_JMP =>
 				estadoproximo <= SB;
+			
+			-- Estado: DESVIO CONDICIONAL
 			WHEN S_JZ =>
 				estadoproximo <= SB;
+			
+			-- Estado: IN
 			WHEN S_IN =>
 				estadoproximo <= SB;
+			
+			-- Estado: OUT
 			WHEN S_OUT =>
 				estadoproximo <= SB;
+			
+			-- OUTROS
 			WHEN OTHERS =>
 				estadoproximo <= S0;
 		END CASE;
