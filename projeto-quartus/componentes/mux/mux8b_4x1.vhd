@@ -1,7 +1,3 @@
---muxwe.vhdl
---Multiplexador implementado com a estrutura
---de seleção when/else
-
 --Bibliotecas
 LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;

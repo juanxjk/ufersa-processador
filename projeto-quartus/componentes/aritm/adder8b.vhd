@@ -1,7 +1,3 @@
---adder4b.vhd
---Somador de 2-bits em CHDL utilizando somador
---Completo
-
 --BIblioteca
 LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;
