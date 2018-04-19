@@ -4,8 +4,18 @@ USE IEEE.STD_LOGIC_1164.ALL;
 ENTITY fsm_processador IS
 	PORT(
 		clk, rst			: IN STD_LOGIC;
-		opcode: IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-		ld_A, cl_A, ld_B, cl_B, ld_Q, cl_Q, m1, m0, T : OUT STD_LOGIC
+		opcode			: IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+		pc_ld, pc_clr	: IN STD_LOGIC;	-- Registrador PC
+		pc_src			: IN STD_LOGIC;	-- 
+		ri_ld, ri_clr	: IN STD_LOGIC;
+		acc_ld, acc_clr	:	IN STD_LOGIC;
+		acc_src				:	IN	STD_LOGIC;
+		in_ld, in_clr		: IN STD_LOGIC;
+		in_src				: IN STD_LOGIC;
+		out_ld, out_clr	: IN STD_LOGIC;
+		mem_inst_rd			: IN STD_LOGIC;
+		mem_rd, mem_wr		: IN STD_LOGIC;
+		mem_src				: IN STD_LOGIC
 	);
 END ENTITY;
 
@@ -51,6 +61,23 @@ BEGIN
 		CASE estadoatual IS
 			--Estado: Inicial
 			WHEN S0 =>
+				pc_ld 		<= '0';
+				pc_clr		<= '0';
+				pc_src 		<= '0';
+				ri_ld 		<= '0';
+				ri_clr		<= '0';	
+				acc_ld		<= '0';
+				acc_clr		<= '0';
+				acc_src		<= '0';
+				in_ld			<= '0';
+				in_clr		<= '0';
+				in_src 		<= '0';				
+				out_ld 		<= '0';
+				out_clr 		<= '0';
+				mem_inst_rd <= '0';	
+				mem_rd 		<= '0';
+				mem_wr 		<= '0';
+				mem_src 		<= '0';	
 				estadoproximo <= SB;
 			-- Estado Busca
 			WHEN SB =>
