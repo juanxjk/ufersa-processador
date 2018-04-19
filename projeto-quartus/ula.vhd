@@ -7,7 +7,7 @@ ENTITY ula IS
 	PORT(
 		A : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
 		B : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
-		alu_op : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
+		alu_op : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
 		Y : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
 	);
 END ENTITY;
@@ -23,24 +23,51 @@ COMPONENT adder8b
 		c8		:	OUT STD_LOGIC
 	);
 END COMPONENT;
-SIGNAL Z : STD_LOGIC;
-SIGNAL RES_SOMA : STD_LOGIC_VECTOR(7 DOWNTO 0);
+
+-- AND
+
+COMPONENT and8b
+	PORT(
+		A, B	: IN	STD_LOGIC_VECTOR(7 DOWNTO 0);
+		Y		: OUT	STD_LOGIC_VECTOR(7 DOWNTO 0)
+	);
+END COMPONENT;
+
+-- XOR
+
+COMPONENT xor8b
+	PORT(
+		A, B	: IN	STD_LOGIC_VECTOR(7 DOWNTO 0);
+		Y		: OUT	STD_LOGIC_VECTOR(7 DOWNTO 0)
+	);
+END COMPONENT;
+
+-- = = = = = SIGNALS = = = = = 
+SIGNAL Z, Z2, Z3 : STD_LOGIC;
+SIGNAL RES_SOMA 				: STD_LOGIC_VECTOR(7 DOWNTO 0);
+SIGNAL RES_COMP_0, RES_COMP, RES_SUB	: STD_LOGIC_VECTOR(7 DOWNTO 0);
+SIGNAL RES_AND					: STD_LOGIC_VECTOR(7 DOWNTO 0);
+SIGNAL RES_XOR					: STD_LOGIC_VECTOR(7 DOWNTO 0);
+
 BEGIN
+
+-- Port map: Soma
 SOMADOR: adder8b port map (A, B, Z, RES_SOMA, Z);
-	--SOMA: PROCESS (alu_op)
-	Y <= RES_SOMA WHEN alu_op = "00";
---	
---	BEGIN
---		CASE alu_op IS
---			WHEN "00" => -- SOMA
---				Y <= SOMADOR;
---			WHEN "01" => -- SUBTRACAO
---			
---			WHEN "10" => -- AND
---			
---			WHEN "11" => -- XOR
---			
---			WHEN OTHERS =>
---		END CASE;
---	END PROCESS;
+
+-- Port map: Subtração
+--LABEL_COMPLEMENTO: xor8b port map (B, "11111111", RES_COMP_0);
+LABEL_COMPLEMENTO_UM: adder8b port map (NOT(B), "00000001", Z3, RES_COMP, Z3);
+LABEL_SUBTRADOR: adder8b port map (A, RES_COMP, Z2, RES_SUB, Z2);
+
+-- Port map: And lógico
+LABEL_AND: and8b port map (A, B, RES_AND);
+
+-- Port map: xor lógico
+LABEL_XOR: xor8b port map (A, B, RES_XOR);
+ WITH alu_op SELECT
+ Y <= RES_SOMA	WHEN "000", -- SOMA
+		RES_SUB	WHEN "001", -- SUBTRACAO	 
+		RES_AND	WHEN "010", -- AND
+		RES_XOR	WHEN "011", -- XOR
+		(OTHERS => '0') WHEN OTHERS;
 END comportamento;
