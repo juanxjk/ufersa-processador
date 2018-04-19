@@ -1,0 +1,34 @@
+% multiple-line comment
+multiple-line comment %
+
+-- single-line comment
+
+DEPTH = 4096;         -- The size of memory in words
+WIDTH = 16;           -- The size of data in bits
+ADDRESS_RADIX = HEX;  -- The radix for address values
+DATA_RADIX = HEX;     -- The radix for data values
+CONTENT    -- start of (address : data pairs)
+BEGIN
+000 : E000; -- memory address : data
+001 : B000;
+002 : E000;
+003 : 0000;
+004 : B000;
+005 : E000;
+006 : B001;
+007 : E000;
+008 : 0001;
+009 : B001;
+00A : 9000;
+00B : 1001;
+00C : 501E;
+00D : 6005;
+00E : D400;
+00F : F000;
+400 : A00A;
+401 : C800;
+800 : B002;
+801 : 4002;
+802 : 5001;
+803 : F000;
+END;
