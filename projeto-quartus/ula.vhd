@@ -1,7 +1,7 @@
 LIBRARY IEEE;
 
 USE IEEE.STD_LOGIC_1164.ALL;
-
+USE IEEE.numeric_std.ALL;
 
 ENTITY ula IS
 	PORT(
@@ -14,60 +14,12 @@ END ENTITY;
 
 ARCHITECTURE comportamento OF ula IS
 
--- Somador 8 Bit
-COMPONENT adder8b
-	PORT(
-		A, B	:	IN	STD_LOGIC_VECTOR(7 DOWNTO 0);
-		c0		:	IN STD_LOGIC;
-		S		:	OUT	STD_LOGIC_VECTOR(7 DOWNTO 0);
-		c8		:	OUT STD_LOGIC
-	);
-END COMPONENT;
-
--- AND
-
-COMPONENT and8b
-	PORT(
-		A, B	: IN	STD_LOGIC_VECTOR(7 DOWNTO 0);
-		Y		: OUT	STD_LOGIC_VECTOR(7 DOWNTO 0)
-	);
-END COMPONENT;
-
--- XOR
-
-COMPONENT xor8b
-	PORT(
-		A, B	: IN	STD_LOGIC_VECTOR(7 DOWNTO 0);
-		Y		: OUT	STD_LOGIC_VECTOR(7 DOWNTO 0)
-	);
-END COMPONENT;
-
--- = = = = = SIGNALS = = = = = 
-SIGNAL Z, Z2, Z3 : STD_LOGIC;
-SIGNAL RES_SOMA 				: STD_LOGIC_VECTOR(7 DOWNTO 0);
-SIGNAL RES_COMP_0, RES_COMP, RES_SUB	: STD_LOGIC_VECTOR(7 DOWNTO 0);
-SIGNAL RES_AND					: STD_LOGIC_VECTOR(7 DOWNTO 0);
-SIGNAL RES_XOR					: STD_LOGIC_VECTOR(7 DOWNTO 0);
-
 BEGIN
 
--- Port map: Soma
-SOMADOR: adder8b port map (A, B, Z, RES_SOMA, Z);
-
--- Port map: Subtração
---LABEL_COMPLEMENTO: xor8b port map (B, "11111111", RES_COMP_0);
-LABEL_COMPLEMENTO_UM: adder8b port map (NOT(B), "00000001", Z3, RES_COMP, Z3);
-LABEL_SUBTRADOR: adder8b port map (A, RES_COMP, Z2, RES_SUB, Z2);
-
--- Port map: And lógico
-LABEL_AND: and8b port map (A, B, RES_AND);
-
--- Port map: xor lógico
-LABEL_XOR: xor8b port map (A, B, RES_XOR);
  WITH alu_op SELECT
- Y <= RES_SOMA	WHEN "000", -- SOMA
-		RES_SUB	WHEN "001", -- SUBTRACAO	 
-		RES_AND	WHEN "010", -- AND
-		RES_XOR	WHEN "011", -- XOR
+ Y <= std_logic_vector(to_unsigned(to_integer(unsigned(A)) + to_integer(unsigned(B)), 8))	WHEN "000", -- SOMA
+		std_logic_vector(to_unsigned(to_integer(unsigned(A)) - to_integer(unsigned(B)), 8))	WHEN "001", -- SUBTRACAO	 
+		(A AND B)	WHEN "010", -- AND
+		(A XOR B)	WHEN "011", -- XOR
 		(OTHERS => '0') WHEN OTHERS;
 END comportamento;
