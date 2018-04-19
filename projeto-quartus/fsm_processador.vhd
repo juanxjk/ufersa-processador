@@ -16,13 +16,14 @@ ENTITY fsm_processador IS
 		mem_inst_rd			: OUT STD_LOGIC;
 		mem_rd, mem_wr		: OUT STD_LOGIC;
 		mem_src				: OUT STD_LOGIC;
-		alu_opcode			: OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
+		alu_opcode			: OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+		estado 				: OUT STD_LOGIC_VECTOR(1 DOWNTO 0)
 	);
 END ENTITY;
 
 ARCHITECTURE comportamento OF fsm_processador IS
 --Signals
-TYPE estado IS (
+TYPE state IS (
 S0, -- Estado Inicial
 SB, -- Estado Busca
 SW, -- Estado de espera
@@ -44,7 +45,7 @@ S_JZ,  -- DESVIO CONDICIONAL
 S_IN,  -- IN
 S_OUT  -- OUT
 );
-SIGNAL estadoatual, estadoproximo : estado;
+SIGNAL estadoatual, estadoproximo : state;
 
 BEGIN
 	--Registrador de Estado
@@ -100,12 +101,32 @@ BEGIN
 				mem_rd 		<= '0';
 				mem_wr 		<= '0';
 				mem_src 		<= '0';
+				estado 		<= "00";
 				estadoproximo <= SW;
 			-- Estado de espera
 			WHEN SW =>
+				pc_ld 		<= '0';
+				pc_clr		<= '0';
+				pc_src 		<= '0';
+				ri_ld 		<= '0';
+				ri_clr		<= '0';
+				acc_ld		<= '0';
+				acc_clr		<= '0';
+				acc_src		<= '0';
+				in_ld			<= '0';
+				in_clr		<= '0';
+				in_src 		<= "00";
+				out_ld 		<= '0';
+				out_clr 		<= '0';
+				mem_inst_rd <= '0';
+				mem_rd 		<= '0';
+				mem_wr 		<= '0';
+				mem_src 		<= '0';
 				estadoproximo <= SD;
+				estado 		<= "01";
 			-- Estado de decodificação
 			WHEN SD =>
+				estado 		<= "10";
 				CASE opcode IS
 					WHEN "0000" => -- ADD adr
 						pc_ld 		<= '0';
@@ -424,66 +445,82 @@ BEGIN
 			
 			-- Estado: SOMA
 			WHEN S_ADD =>
+				estado 		<= "11";
 				estadoproximo <= SB;
 			
 			-- Estado: SUBTRAÇÃO
 			WHEN S_SUB =>
+				estado 		<= "11";
 				estadoproximo <= SB;
 			
 			-- Estado: AND LÓGICO
 			WHEN S_AND =>
+				estado 		<= "11";
 				estadoproximo <= SB;
 			
 			-- Estado: XOR LÓGICO
 			WHEN S_XOR =>
+				estado 		<= "11";
 				estadoproximo <= SB;
 			
 			-- Estado: NOT LÓGICO
 			WHEN S_NOT =>
+				estado 		<= "11";
 				estadoproximo <= SB;
 			
 			-- Estado: ADIÇÃO IMEDIATA
 			WHEN S_ADDI =>
+				estado 		<= "11";
 				estadoproximo <= SB;
 			
 			-- Estado: SUBTRAÇÃO IMEDIATA
 			WHEN S_SUBI =>
+				estado 		<= "11";
 				estadoproximo <= SB;
 			
 			-- Estado: AND LÓGICO IMEDIATO
 			WHEN S_ANDI =>
+				estado 		<= "11";
 				estadoproximo <= SB;
 			
 			-- Estado: XOR LÓGICO IMEDIATO
 			WHEN S_XORI =>
+				estado 		<= "11";
 				estadoproximo <= SB;
 			
 			-- Estado: LOAD MEMÓRIA
 			WHEN S_LDA =>
+				estado 		<= "11";
 				estadoproximo <= SB;
 			
 			-- Estado: LOAD MEMÓRIA IMEDIATA
 			WHEN S_LDI =>
+				estado 		<= "11";
 				estadoproximo <= SB;
 			
 			-- Estado: STORE MEMÓRIA
 			WHEN S_STA =>
+				estado 		<= "11";
 				estadoproximo <= SB;
 			
 			-- Estado: DESVIO
 			WHEN S_JMP =>
+				estado 		<= "11";
 				estadoproximo <= SB;
 			
 			-- Estado: DESVIO CONDICIONAL
 			WHEN S_JZ =>
+				estado 		<= "11";
 				estadoproximo <= SB;
 			
 			-- Estado: IN
 			WHEN S_IN =>
+				estado 		<= "11";
 				estadoproximo <= SB;
 			
 			-- Estado: OUT
 			WHEN S_OUT =>
+				estado 		<= "11";
 				estadoproximo <= SB;
 			
 			-- OUTROS

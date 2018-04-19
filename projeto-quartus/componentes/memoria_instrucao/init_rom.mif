@@ -9,22 +9,23 @@ ADDRESS_RADIX = HEX;  -- The radix for address values
 DATA_RADIX = HEX;     -- The radix for data values
 CONTENT    -- start of (address : data pairs)
 BEGIN
-000 : E000; -- memory address : data
-001 : B000;
-002 : E000;
-003 : 0000;
-004 : B000;
-005 : E000;
-006 : B001;
-007 : E000;
-008 : 0001;
-009 : B001;
-00A : 9000;
-00B : 1001;
-00C : 501E;
-00D : 6005;
-00E : D400;
-00F : F000;
+000 : 0000;
+001 : E000; -- memory address : data
+002 : B000;
+003 : E000;
+004 : 0000;
+005 : B000;
+006 : E000;
+007 : B001;
+008 : E000;
+009 : 0001;
+00A : B001;
+00B : 9000;
+00C : 1001;
+00D : 501E;
+00E : 6005;
+00F : D400;
+010 : F000;
 400 : A00A;
 401 : C800;
 800 : B002;

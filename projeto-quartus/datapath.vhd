@@ -5,7 +5,11 @@ ENTITY datapath IS
 	PORT (
 		clk, rst			: IN STD_LOGIC;
 		rin : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
-		rout : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+		pc_out : OUT STD_LOGIC_VECTOR(11 DOWNTO 0);
+		ri_out : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+		acc_out : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+		rout : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+		estado : OUT STD_LOGIC_VECTOR(1 DOWNTO 0)
 	);
 END ENTITY;
 
@@ -27,7 +31,8 @@ COMPONENT fsm_processador
 		mem_inst_rd			: OUT STD_LOGIC;
 		mem_rd, mem_wr		: OUT STD_LOGIC;
 		mem_src				: OUT STD_LOGIC;
-		alu_opcode			: OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
+		alu_opcode			: OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+		estado : OUT STD_LOGIC_VECTOR(1 DOWNTO 0)
 	);
 END COMPONENT;
 
@@ -204,20 +209,21 @@ L_MEM_INST: mem_inst port map(pc_output, clk, mem_inst_output);
 L_RI: reg16cp port map(clk, ri_ld, ri_clr, mem_inst_output, ri_output);
 L_SEP_I: sep_i port map(sep_inst_output, sep_i_output);
 L_SEP_INST: sep_inst port map(ri_output, sep_inst_output);
-L_SEP_OP: sep_op port map(ri_output, sep_op_output);
+L_SEP_OP: sep_op port map(ri_output, opcode);
 L_MEM_DATA: mem_data port map(clk, acc_output, sep_inst_output, mem_rd, sep_inst_output, mem_wr, mem_data_output);
 L_MUX_MEM_DATA: mux8b_2x1 port map(sep_i_output, mem_data_output, mem_src, mux_mem_output);
 L_ULA: ula port map(acc_output, mux_mem_output, alu_opcode, ula_output);
 L_MUX_ACC: mux8b_2x1 port map(ula_output, mux_mem_output, acc_src, mux_acc_output);
 L_ACC: reg8cp port map(clk, acc_ld, acc_clr, mux_in_output, acc_output);
 L_RIN: reg8cp port map(clk, in_ld, in_clr, rin, in_output);
-L_MUX_IN: mux8b_4x1 port map(mux_in_output, sep_i_output, in_output, nulo, in_src(1), in_src(0), mux_in_output);
+L_MUX_IN: mux8b_4x1 port map(mux_acc_output, sep_i_output, in_output, nulo, in_src(1), in_src(0), mux_in_output);
 L_ROUT: reg8cp port map(clk, out_ld, out_clr, acc_output, rout);
 L_FSM_PROCESSADOR: fsm_processador port map(clk, rst, opcode, pc_ld, pc_clr, pc_src, ri_ld, 
 						ri_clr, acc_ld, acc_clr, acc_src, in_ld, in_clr, in_src, out_ld, out_clr, mem_inst_rd, mem_rd, 
-						mem_wr, mem_src, alu_opcode);
+						mem_wr, mem_src, alu_opcode, estado);
 
-
-
+pc_out <= pc_output;
+ri_out <= ri_output;
+acc_out <= acc_output;
 
 END comportamento;
